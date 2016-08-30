@@ -512,6 +512,14 @@ func (c *VirConnection) NumOfSecrets() (int, error) {
 	return result, nil
 }
 
+func (c *VirConnection) GetFreeMemoryBytes() (uint, error) {
+	result := uint(C.virNodeGetFreeMemory(c.ptr))
+	if result == 0 {
+		return 0, GetLastError()
+	}
+	return result, nil
+}
+
 func (c *VirConnection) NetworkDefineXMLFromFile(xmlFile string) (VirNetwork, error) {
 	xmlConfig, err := ioutil.ReadFile(xmlFile)
 	if err != nil {
